@@ -2,10 +2,24 @@ type LoginModalProps = {
   isOpen: boolean;
   onClose: () => void;
 };
+import { useState } from "react";
+import { useValidation } from "../../hooks/password";
+const LoginModal = ({  onClose }: LoginModalProps) => { 
+const { validateEmail, validatePassword } = useValidation();
+const [email,setEmail]=useState<string>("")
+const [password,setPassword]=useState<string>("")
+const handleSubmit = () => {
+  if (!validateEmail(email)) {
+    alert("Invalid email");
+    return;
+  }
 
-const LoginModal = ({  onClose }: LoginModalProps) => {
-  
-
+  if (!validatePassword(password)) {
+    alert("Password must be at least 8 characters");
+    return;
+  }
+  alert("Form is valid!");
+};
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
       <div className="relative w-full max-w-md rounded-xl bg-white p-8 shadow-2xl">
@@ -29,6 +43,9 @@ const LoginModal = ({  onClose }: LoginModalProps) => {
             </label>
             <input
               type="email"
+                name="email"
+  value={email}
+  onChange={(e)=>(setEmail(e.target.value))}
               placeholder="Enter your email"
               className="w-full rounded-lg text-black border bg-gray-200 p-3 focus:border-blue-500 focus:outline-none"
             />
@@ -40,13 +57,16 @@ const LoginModal = ({  onClose }: LoginModalProps) => {
             </label>
             <input
               type="password"
+                name="email"
+  value={password}
+onChange={(e)=>(setPassword(e.target.value))}
               placeholder="Enter your password"
               className="w-full rounded-lg text-black border bg-gray-200 p-3 focus:border-blue-500 focus:outline-none"
             />
           </div>
 
           <button
-            type="submit"
+          onClick={handleSubmit }
             className="w-full rounded-lg bg-blue-600 py-3 font-semibold text-white hover:bg-blue-700"
           >
             Login
